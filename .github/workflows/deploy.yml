@@ -1,0 +1,62 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site (Next.js export)
+        env:
+          GITHUB_PAGES: 'true'
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          # Expose any public envs if needed:
+          NEXT_PUBLIC_WEDDING_DATE: ${{ vars.NEXT_PUBLIC_WEDDING_DATE }}
+          NEXT_PUBLIC_IBAN: ${{ vars.NEXT_PUBLIC_IBAN }}
+          NEXT_PUBLIC_COUPLE_NAMES: ${{ vars.NEXT_PUBLIC_COUPLE_NAMES }}
+          NEXT_PUBLIC_RSVP_ENDPOINT: ${{ vars.NEXT_PUBLIC_RSVP_ENDPOINT }}
+          NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ vars.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}
+        run: |
+          npm run build
+          test -d out && echo 'Export ok' || (echo 'Missing out directory' && exit 1)
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

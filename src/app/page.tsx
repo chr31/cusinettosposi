@@ -12,8 +12,8 @@ const IBAN = process.env.NEXT_PUBLIC_IBAN || 'IT00 X000 0000 0000 0000 0000 000'
 const COUPLE = process.env.NEXT_PUBLIC_COUPLE_NAMES || 'Sara & Christian'
 
 const IMAGES = [
-  '/photos/main1.png',
-  '/photos/main2.png',
+  'photos/main1.png',
+  'photos/main2.png',
 ]
 
 const AGENDA: AgendaItem[] = [
