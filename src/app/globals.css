@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-overlay: rgba(0, 0, 0, 0.35);
+}
+
+/* Local decorative font for the title */
+@font-face {
+  font-family: 'Amoresa Aged';
+  src: url('/fonts/amoresa-aged.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-amoresa {
+  font-family: 'Amoresa Aged', serif;
+}
+
+html,
+body,
+#__next {
+  height: 100%;
+}
+
+body {
+  @apply text-gray-900 bg-white;
+}
+
+a {
+  @apply underline-offset-4 hover:underline;
+}
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Base typography rules */
+@layer base {
+  h1, h2, h3 {
+    @apply font-serif;
+  }
+}
