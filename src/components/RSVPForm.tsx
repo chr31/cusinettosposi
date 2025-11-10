@@ -3,17 +3,16 @@ import { useState } from 'react'
 
 type FormState = {
   nome: string
-  email: string
-  presenze: number
   messaggio?: string
 }
 
 export default function RSVPForm() {
-  const [state, setState] = useState<FormState>({ nome: '', email: '', presenze: 1, messaggio: '' })
+  const [state, setState] = useState<FormState>({ nome: '', messaggio: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle')
   const [error, setError] = useState<string>('')
   const endpoint = process.env.NEXT_PUBLIC_RSVP_ENDPOINT as string | undefined
   const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string | undefined
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER as string | undefined
 
   // Minimal loader for reCAPTCHA v3
   const getRecaptchaToken = async (): Promise<string | null> => {
@@ -53,8 +52,7 @@ export default function RSVPForm() {
       if (!endpoint) throw new Error('Endpoint RSVP non configurato')
       const formData = new FormData()
       formData.append('nome', state.nome)
-      formData.append('email', state.email)
-      formData.append('presenze', String(state.presenze))
+      // campi email e presenze rimossi su richiesta
       formData.append('messaggio', state.messaggio || '')
       formData.append('userAgent', typeof navigator !== 'undefined' ? navigator.userAgent : '')
       formData.append('timestamp', new Date().toISOString())
@@ -78,7 +76,7 @@ export default function RSVPForm() {
       // attempt to parse JSON but don't fail if not JSON
       try { await res.json() } catch {}
       setStatus('ok')
-      setState({ nome: '', email: '', presenze: 1, messaggio: '' })
+      setState({ nome: '', messaggio: '' })
     } catch (err: any) {
       setError(err?.message || 'Qualcosa è andato storto')
       setStatus('error')
@@ -98,38 +96,15 @@ export default function RSVPForm() {
         </div>
       )}
       <div>
-        <label className="block text-sm font-medium text-gray-800">Nome e cognome</label>
-        <input
+        <label className="block text-sm font-medium text-gray-800">Nome e cognome dei partecipanti</label>
+        <textarea
           required
           value={state.nome}
           onChange={(e) => setState((s) => ({ ...s, nome: e.target.value }))}
           className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-700"
-          placeholder="Es. Mario Rossi"
+          placeholder={"Un partecipante per riga\nEs. Mario Rossi\nAnna Bianchi"}
+          rows={3}
         />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-800">Email</label>
-          <input
-            required
-            type="email"
-            value={state.email}
-            onChange={(e) => setState((s) => ({ ...s, email: e.target.value }))}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-700"
-            placeholder="nome@esempio.it"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-800">Numero di presenze</label>
-          <input
-            required
-            type="number"
-            min={1}
-            value={state.presenze}
-            onChange={(e) => setState((s) => ({ ...s, presenze: Number(e.target.value) }))}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-700"
-          />
-        </div>
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-800">Messaggio (opzionale)</label>
@@ -141,7 +116,7 @@ export default function RSVPForm() {
           placeholder="Allergie, intolleranze, note..."
         />
       </div>
-      <div className="flex items-center gap-3 flex-wrap">
+      <div className="flex items-center justify-center gap-3 flex-wrap text-center">
         <button
           type="submit"
           disabled={status === 'sending'}
@@ -149,6 +124,18 @@ export default function RSVPForm() {
         >
           {status === 'sending' ? 'Invio...' : 'Conferma presenza'}
         </button>
+        <span className="text-gray-600">oppure</span>
+        <a
+          href={whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}` : '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-lg bg-emerald-600 text-white px-4 py-2 hover:bg-emerald-700 disabled:opacity-60"
+          aria-disabled={!whatsappNumber}
+        >
+          Scrivici su Whatsapp
+        </a>
+      </div>
+      <div className="text-center">
         {status === 'ok' && <span className="text-green-700">Grazie! Ricevuto.</span>}
         {status === 'error' && <span className="text-red-700">{error}</span>}
       </div>

@@ -8,7 +8,7 @@ export type AgendaItem = {
 
 export default function Agenda({ items }: { items: AgendaItem[] }) {
   return (
-    <div className={`font-sans grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6`}>
+    <div className={`font-sans grid grid-cols-1 gap-4 md:gap-6`}>
       {items.map((it, idx) => (
         <div
           key={idx}
@@ -19,24 +19,26 @@ export default function Agenda({ items }: { items: AgendaItem[] }) {
               {it.time}
             </div>
             <div>
-              <div className="text-xl font-semibold text-gray-900 leading-tight">{it.title}</div>
+              <div className="font-serif text-2xl font-bold text-gray-900 leading-tight"><i>{it.title}</i></div>
               <div className="mt-1 text-emerald-800 text-base flex items-center gap-3 flex-wrap">
                 <a
                   href={it.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:underline underline-offset-2 hover:text-emerald-900"
+                  className="inline-flex items-center gap-1 hover:underline underline-offset-2 hover:text-emerald-900"
                   aria-label={`Apri in Google Maps: ${it.location}`}
                 >
+                  <svg
+                    aria-hidden="true"
+                    className="h-4 w-4 text-emerald-700/60"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10 18.5s6-5.2 6-9.5a6 6 0 10-12 0c0 4.3 6 9.5 6 9.5z" />
+                    <circle cx="10" cy="9" r="2.25" strokeWidth="1.5" />
+                  </svg>
                   {it.location}
-                </a>
-                <a
-                  href={it.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center rounded-full border border-gray-300 px-2 py-1 text-xs text-emerald-700 hover:bg-emerald-50"
-                >
-                  Apri in Maps
                 </a>
               </div>
               {it.description ? (

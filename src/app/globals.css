@@ -26,7 +26,8 @@ body,
 }
 
 body {
-  @apply text-gray-900 bg-white;
+  @apply text-gray-900;
+  background-color: rgb(236, 131, 148);
 }
 
 a {

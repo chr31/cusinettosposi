@@ -43,7 +43,7 @@ export default function Countdown({ target, digitsClassName }: { target: string;
   )
 
   return (
-    <div className="flex items-center justify-center gap-2 sm:gap-4 bg-black/30 rounded-xl p-3 sm:p-4 backdrop-blur">
+    <div className="font-amoresa flex items-center justify-center gap-2 sm:gap-4 bg-black/30 rounded-xl p-3 sm:p-4 backdrop-blur">
       <Item label="Giorni" value={remaining.days} />
       <span className="text-white/60">:</span>
       <Item label="Ore" value={remaining.hours} />

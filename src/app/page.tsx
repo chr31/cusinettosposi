@@ -22,14 +22,14 @@ const AGENDA: AgendaItem[] = [
     title: 'Cerimonia',
     location: 'Parrocchia di Santa Margherita',
     mapsUrl: 'https://maps.app.goo.gl/M2ndycwgFXTkKhXNA',
-    description: 'Dove avviene la magia!',
+    description: 'Qui avviene la magia!',
   },
   {
     time: '13:00',
     title: 'Aperitivo',
     location: 'Villa Revedin, Gorgo al Monticano',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Villa+Revedin%2C+Gorgo+al+Monticano',
-    description: 'Brindisi e stuzzichini in giardino',
+    description: 'Abbuffata immersi nel verde.',
   },
   {
     time: '14:00',
@@ -60,8 +60,8 @@ export default function Home() {
       {/* Hero */}
       <section id="hero" className="relative min-h-[90vh] flex items-center">
         <BackgroundSlideshow images={IMAGES} intervalMs={6000}>
-          <h1 className={`font-amoresa text-4xl sm:text-6xl font-semibold drop-shadow-md text-white`}>{COUPLE}</h1>
-          <div className="mt-2 text-white/90 text-sm sm:text-base">30 Maggio 2026</div>
+          <h1 className={`font-amoresa text-4xl sm:text-6xl font-semibold drop-shadow-md text-white`}><i>{COUPLE}</i></h1>
+          {/* <div className="mt-2 text-white/90 text-sm sm:text-base">30 Maggio 2026</div> */}
           <div className="mt-4">
             <Countdown target={WEDDING_DATE} digitsClassName={inter.className} />
           </div>
@@ -72,9 +72,9 @@ export default function Home() {
       {/* Agenda */}
       <section id="agenda" className="relative py-12 sm:py-16 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900">Agenda della giornata</h2>
-          <p className="text-gray-600 mt-1">Orari indicativi, potrebbero subire variazioni leggere.</p>
-          <div className="mt-6">
+          <h2 className="text-2xl sm:text-5xl font-semibold text-gray-900 text-center">Ci sposiamo!</h2>
+          <p className="font-amoresa sm:text-2xl text-gray-900 mt-1 text-center"><i>Il 30 Maggio vi vorremmo vicini per festeggiare il nostro grande giorno.</i></p>
+          <div className="mt-6 max-w-xl mx-auto">
             <Agenda items={AGENDA} />
           </div>
         </div>
@@ -83,9 +83,9 @@ export default function Home() {
       {/* RSVP */}
       <section id="rsvp" className="relative py-12 sm:py-16 bg-white">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900">Conferma di partecipazione</h2>
-          <p className="text-gray-600 mt-1">Compila il modulo per farci sapere che verrai.</p>
-          <div className="mt-6 rounded-xl border border-gray-200 bg-white p-6">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Conferma di partecipazione</h2>
+          <p className="text-gray-600 mt-1 text-center">Compila il modulo per farci sapere che verrai.</p>
+          <div className="mt-6 rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-6 shadow-sm">
             <RSVPForm />
           </div>
         </div>
@@ -94,10 +94,9 @@ export default function Home() {
       {/* Lista nozze */}
       <section id="lista" className="relative py-12 sm:py-16 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900">Lista di nozze</h2>
-          <p className="text-gray-600 mt-1">Contributo per il viaggio in Giappone.</p>
+          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Lista nozze</h2>
           <div className="mt-6">
-            <GiftSection iban={IBAN} note="Causale suggerita: 'Viaggio Cristian & Federica'" />
+            <GiftSection iban={IBAN} note="Causale suggerita: " />
           </div>
         </div>
       </section>
