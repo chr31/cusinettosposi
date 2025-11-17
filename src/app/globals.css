@@ -27,7 +27,6 @@ body,
 
 body {
   @apply text-gray-900;
-  background-color: rgb(236, 131, 148);
 }
 
 a {
@@ -44,4 +43,49 @@ html {
   h1, h2, h3 {
     @apply font-serif;
   }
+}
+
+/* Nascondi footer quando richiesto dal QuickMenu */
+html[data-hide-footer="true"] footer {
+  display: none;
+}
+
+/* Blocca lo scroll all'apertura finché non viene aperta una sezione */
+html[data-lock-scroll="true"],
+html[data-lock-scroll="true"] body {
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Animazione scritta di benvenuto */
+@keyframes welcome-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.welcome-fade {
+  animation: welcome-fade 5s ease-in-out forwards;
+}
+
+/* Sfondo gradiente per la schermata di benvenuto */
+.welcome-overlay-bg {
+  background-color: rgba(255, 255, 255, 0.90);
+}
+
+.welcome-title {
+  font-size: 45px;
 }

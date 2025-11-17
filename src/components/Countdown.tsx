@@ -34,8 +34,8 @@ export default function Countdown({ target, digitsClassName }: { target: string;
   if (!remaining) return null
 
   const Item = ({ label, value }: { label: string; value: number }) => (
-    <div className="flex flex-col items-center px-4 py-2">
-      <div className={`text-4xl sm:text-5xl md:text-6xl font-semibold text-white tabular-nums ${digitsClassName || ''}`}>
+    <div className="flex flex-col items-center px-2 sm:px-4 py-1.5 sm:py-2">
+      <div className={`text-3xl sm:text-5xl md:text-6xl font-semibold text-white tabular-nums ${digitsClassName || ''}`}>
         {value.toString().padStart(2, '0')}
       </div>
       <div className="text-white/90 text-sm uppercase tracking-wide">{label}</div>
@@ -43,7 +43,7 @@ export default function Countdown({ target, digitsClassName }: { target: string;
   )
 
   return (
-    <div className="font-amoresa flex items-center justify-center gap-2 sm:gap-4 bg-black/30 rounded-xl p-3 sm:p-4 backdrop-blur">
+    <div className="font-amoresa flex items-center justify-center gap-1.5 sm:gap-4 bg-black/30 rounded-lg sm:rounded-xl p-2.5 sm:p-4 backdrop-blur">
       <Item label="Giorni" value={remaining.days} />
       <span className="text-white/60">:</span>
       <Item label="Ore" value={remaining.hours} />

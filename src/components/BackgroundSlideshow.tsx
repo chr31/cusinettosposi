@@ -21,9 +21,22 @@ type Props = {
   images?: string[]
   intervalMs?: number
   children?: ReactNode
+  fixed?: boolean
+  // Optionale: consente al genitore di forzare uno slide attivo
+  activeIndex?: number
+  // Facoltativo: se true blocca l'auto-advance
+  paused?: boolean
 }
 
-export default function BackgroundSlideshow({ slides, images, intervalMs = 6000, children }: Props) {
+export default function BackgroundSlideshow({
+  slides,
+  images,
+  intervalMs = 6000,
+  children,
+  fixed = false,
+  activeIndex,
+  paused = false,
+}: Props) {
   // Normalize props into a single list of slides
   const normalizedSlides: Slide[] = useMemo(() => {
     if (slides && slides.length) return slides
@@ -37,11 +50,21 @@ export default function BackgroundSlideshow({ slides, images, intervalMs = 6000,
   // Auto-advance
   useEffect(() => {
     if (!normalizedSlides.length) return
+    // Se è in pausa, non auto-avanzare
+    if (paused) return
     const id = setInterval(() => {
       setIndex((i) => (i + 1) % normalizedSlides.length)
     }, intervalMs)
     return () => clearInterval(id)
-  }, [normalizedSlides.length, intervalMs])
+  }, [normalizedSlides.length, intervalMs, paused])
+
+  // Permette al genitore di forzare lo slide corrente una tantum
+  useEffect(() => {
+    if (!normalizedSlides.length) return
+    if (typeof activeIndex === 'number') {
+      setIndex(activeIndex)
+    }
+  }, [activeIndex, normalizedSlides.length])
 
   // Play/pause videos depending on active index
   useEffect(() => {
@@ -69,7 +92,7 @@ export default function BackgroundSlideshow({ slides, images, intervalMs = 6000,
   if (!normalizedSlides.length) return null
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div className={`${fixed ? 'fixed -z-10' : 'absolute'} inset-0 overflow-hidden`}>
       {normalizedSlides.map((slide, i) => {
         const visible = i === index
         const commonClass = 'absolute inset-0 transition-opacity duration-1000'
@@ -91,6 +114,7 @@ export default function BackgroundSlideshow({ slides, images, intervalMs = 6000,
           <div key={`vid-${slide.src}-${i}`} className={commonClass} style={style} aria-hidden={!visible}>
             <video
               ref={(el) => (videoRefs.current[i] = el)}
+              data-slide-src={slide.src}
               className="w-full h-full object-cover"
               playsInline
               autoPlay
@@ -119,7 +143,10 @@ export default function BackgroundSlideshow({ slides, images, intervalMs = 6000,
       })}
       <div className="absolute inset-0" style={{ background: 'var(--bg-overlay)' }} />
       {children ? (
-        <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center pb-10 px-4">
+        <div
+          className="absolute inset-x-0 bottom-0 z-10 flex justify-center px-4"
+          style={{ paddingBottom: 'calc(var(--menu-height, 0px) + 12px)' }}
+        >
           <div className="text-center">
             {children}
           </div>

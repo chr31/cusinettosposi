@@ -102,12 +102,12 @@ export default function RSVPForm() {
           value={state.nome}
           onChange={(e) => setState((s) => ({ ...s, nome: e.target.value }))}
           className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-700"
-          placeholder={"Un partecipante per riga\nEs. Mario Rossi\nAnna Bianchi"}
+          placeholder={"👍🏻Sergio Mattarella \n👍🏻Naruto Uzumaki \n👎🏻Le winx"}
           rows={3}
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-800">Messaggio (opzionale)</label>
+        <label className="block text-sm font-medium text-gray-800">Cose che vorresti farci sapere</label>
         <textarea
           value={state.messaggio}
           onChange={(e) => setState((s) => ({ ...s, messaggio: e.target.value }))}
@@ -116,13 +116,13 @@ export default function RSVPForm() {
           placeholder="Allergie, intolleranze, note..."
         />
       </div>
-      <div className="flex items-center justify-center gap-3 flex-wrap text-center">
+      <div className="flex flex-col items-center justify-center gap-2 text-center">
         <button
           type="submit"
           disabled={status === 'sending'}
           className="rounded-lg bg-gray-900 text-white px-4 py-2 hover:bg-gray-800 disabled:opacity-60"
         >
-          {status === 'sending' ? 'Invio...' : 'Conferma presenza'}
+          {status === 'sending' ? 'Invio...' : 'Invia risposta'}
         </button>
         <span className="text-gray-600">oppure</span>
         <a

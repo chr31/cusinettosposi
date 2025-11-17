@@ -12,7 +12,7 @@ export default function Agenda({ items }: { items: AgendaItem[] }) {
       {items.map((it, idx) => (
         <div
           key={idx}
-          className="relative rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-6 shadow-sm"
+          className="relative rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm"
         >
           <div className="flex items-start gap-4 md:gap-5">
             <div className="text-2xl font-semibold text-gray-800 tabular-nums w-16 md:w-24 shrink-0">
