@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import BackgroundSlideshow, { type Slide } from '@/components/BackgroundSlideshow'
 import Countdown from '@/components/Countdown'
@@ -89,7 +89,7 @@ const AGENDA = [
   },
 ]
 
-export default function Page() {
+function PageContent() {
   const searchParams = useSearchParams()
   const isInviteView = searchParams.get('invito') === '1'
 
@@ -512,5 +512,13 @@ export default function Page() {
       })}
 
     </main>
+  )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <PageContent />
+    </Suspense>
   )
 }
