@@ -6,6 +6,13 @@ export type AgendaItem = {
   description?: string
 }
 
+import { Dancing_Script } from 'next/font/google'
+
+const dancingScript = Dancing_Script({
+  subsets: ['latin'],
+  weight: '700',
+})
+
 export default function Agenda({ items }: { items: AgendaItem[] }) {
   return (
     <div className={`font-sans grid grid-cols-1 gap-4 md:gap-6`}>
@@ -15,7 +22,7 @@ export default function Agenda({ items }: { items: AgendaItem[] }) {
           className="relative rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm"
         >
           <div className="flex items-start gap-4 md:gap-5">
-            <div className="text-2xl font-semibold text-gray-800 tabular-nums w-16 md:w-24 shrink-0">
+            <div className={`${dancingScript.className} text-2xl font-semibold text-gray-800 tabular-nums w-16 md:w-24 shrink-0`}>
               {it.time}
             </div>
             <div>

@@ -9,7 +9,6 @@
 /* Local decorative font for the title */
 @font-face {
   font-family: 'Amoresa Aged';
-  src: url('/fonts/amoresa-aged.woff2') format('woff2');
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;
@@ -27,6 +26,7 @@ body,
 
 body {
   @apply text-gray-900;
+  background-color: #ffffff;
 }
 
 a {
@@ -87,5 +87,5 @@ html[data-lock-scroll="true"] body {
 }
 
 .welcome-title {
-  font-size: 45px;
+  font-size: 75px;
 }

@@ -66,6 +66,12 @@ export default function BackgroundSlideshow({
     }
   }, [activeIndex, normalizedSlides.length])
 
+  // Quando cambia il set di slide (ad es. cambiando sezione),
+  // ricomincia sempre dalla prima slide
+  useEffect(() => {
+    setIndex(0)
+  }, [slides, images])
+
   // Play/pause videos depending on active index
   useEffect(() => {
     normalizedSlides.forEach((s, i) => {
@@ -92,7 +98,11 @@ export default function BackgroundSlideshow({
   if (!normalizedSlides.length) return null
 
   return (
-    <div className={`${fixed ? 'fixed -z-10' : 'absolute'} inset-0 overflow-hidden`}>
+    <div
+      className={`${
+        fixed ? 'fixed -z-10' : 'absolute'
+      } inset-0 overflow-hidden transform scale-[1] sm:scale-100`}
+    >
       {normalizedSlides.map((slide, i) => {
         const visible = i === index
         const commonClass = 'absolute inset-0 transition-opacity duration-1000'
