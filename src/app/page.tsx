@@ -456,7 +456,7 @@ export default function Page() {
         id={step.sectionId}
         className={
           step.id === 'agenda'
-            ? 'relative bg-transparent min-h-[100svh] pt-[20px] sm:pt-[20px]'
+            ? 'relative bg-transparent min-h-[100svh] pt-[20px] sm:pt-[20px] pb-[80px] sm:pb-[80px]'
             : `relative py-8 sm:py-16 bg-transparent ${step.sectionClassName ?? ''}`
         }
       >
