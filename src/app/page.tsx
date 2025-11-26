@@ -201,19 +201,19 @@ function PageContent() {
           <h2 className="text-2xl sm:text-5xl font-semibold text-gray-900 text-center">Tiriamo le somme</h2>
           <div className="mt-3 grid max-w-2xl mx-auto grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-3 sm:p-4 text-center shadow-sm">
-              <div className="text-xl sm:text-2xl font-semibold text-green-700">280.000 KM</div>
+              <div className="text-xl sm:text-2xl font-semibold text-sky-400">280.000 KM</div>
               <div className="text-xs sm:text-sm text-gray-700 mt-1 uppercase tracking-wide">in auto</div>
             </div>
             <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-3 sm:p-4 text-center shadow-sm">
-              <div className="text-xl sm:text-2xl font-semibold text-green-700">13.000 KM</div>
+              <div className="text-xl sm:text-2xl font-semibold text-sky-400">13.000 KM</div>
               <div className="text-xs sm:text-sm text-gray-700 mt-1 uppercase tracking-wide">di passeggiate</div>
             </div>
             <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-3 sm:p-4 text-center shadow-sm">
-              <div className="text-xl sm:text-2xl font-semibold text-green-700">1.286 ORE</div>
+              <div className="text-xl sm:text-2xl font-semibold text-sky-400">1.286 ORE</div>
               <div className="text-xs sm:text-sm text-gray-700 mt-1 uppercase tracking-wide">di canzoni cantate</div>
             </div>
             <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-3 sm:p-4 text-center shadow-sm">
-              <div className="text-lg sm:text-xl font-semibold text-green-700">QUELLI BELLI</div>
+              <div className="text-lg sm:text-xl font-semibold text-sky-400">QUELLI BELLI</div>
               <div className="text-xs sm:text-sm text-gray-700 mt-1 uppercase tracking-wide">amici</div>
             </div>
           </div>
@@ -408,7 +408,7 @@ function PageContent() {
           welcomeHidden ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
-        <h2 className={`${dancingScript.className} welcome-fade welcome-title font-semibold text-green-700 text-center px-6`}>
+        <h2 className={`${dancingScript.className} welcome-fade welcome-title font-semibold text-blue-500 text-center px-6`}>
           Benvenuti!!
         </h2>
       </div>
@@ -466,8 +466,8 @@ function PageContent() {
             className={
               step.id === 'agenda'
                 ? 'relative bg-transparent min-h-[100svh] pt-[20px] sm:pt-[20px] pb-[80px] sm:pb-[80px]'
-                : step.id === 'tiriamo-le-somme'
-                ? 'relative bg-transparent min-h-[100svh] pt-[20px] sm:pt-[20px] pb-[80px] sm:pb-[80px]'
+              : step.id === 'tiriamo-le-somme'
+                ? 'relative bg-transparent min-h-[100svh] pt-[0px] sm:pt-[0px] pb-[60px] sm:pb-[60px]'
                 : `relative py-8 sm:py-16 bg-transparent ${step.sectionClassName ?? ''}`
             }
           >
@@ -484,7 +484,12 @@ function PageContent() {
                   className={isBottomFixedCta ? 'absolute inset-x-0 flex justify-center' : 'mt-8 flex justify-center'}
                   style={
                     isBottomFixedCta
-                      ? { bottom: 'calc(env(safe-area-inset-bottom, 0px) + 20px)' }
+                      ? {
+                          bottom:
+                            step.id === 'tiriamo-le-somme'
+                              ? 'calc(env(safe-area-inset-bottom, 0px) + 80px)'
+                              : 'calc(env(safe-area-inset-bottom, 0px) + 20px)',
+                        }
                       : undefined
                   }
                 >
