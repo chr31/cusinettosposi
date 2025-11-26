@@ -91,12 +91,13 @@ const AGENDA = [
 
 function PageContent() {
   const searchParams = useSearchParams()
-  const isInviteView = searchParams.get('invito') === '1'
+  const isInviteView = searchParams.get('femoFesta') === '06-05-2018'
 
   const [visibleStepCount, setVisibleStepCount] = useState(0)
   const [slideshowIndex, setSlideshowIndex] = useState<number | undefined>(undefined)
   const [welcomeHidden, setWelcomeHidden] = useState(false)
   const [activeStepIndex, setActiveStepIndex] = useState<number | null>(null)
+  const pendingScrollIdRef = useRef<string | null>(null)
 
   const agendaItems = isInviteView ? AGENDA : [AGENDA[0]]
 
@@ -111,7 +112,8 @@ function PageContent() {
     const el = document.getElementById(id)
     if (!el) return
     const rect = el.getBoundingClientRect()
-    const y = (window.scrollY || window.pageYOffset) + rect.top
+    const offset = id === 'tiriamo-le-somme-end' ? 20 : 0
+    const y = (window.scrollY || window.pageYOffset) + rect.top - offset
     window.scrollTo({ top: y, behavior: 'smooth' })
   }
 
@@ -159,7 +161,7 @@ function PageContent() {
               </div>
             </div>
           </div>
-          <div className="max-w-xl mx-auto mb-[20px] sm:mb-[20px]">
+          <div className="max-w-xl mx-auto mt-[10px] sm:mt-0 mb-[20px] sm:mb-[20px]">
             <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
               <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">E quindi</h2>
               <p className="text-gray-700 mt-3 text-center">
@@ -196,7 +198,7 @@ function PageContent() {
       slides: TIRIAMO_LE_SOMME_SLIDES,
       card: (
         <>
-          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Tiriamo le somme</h2>
+          <h2 className="text-2xl sm:text-5xl font-semibold text-gray-900 text-center">Tiriamo le somme</h2>
           <div className="mt-3 grid max-w-2xl mx-auto grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-3 sm:p-4 text-center shadow-sm">
               <div className="text-xl sm:text-2xl font-semibold text-green-700">280.000 KM</div>
@@ -220,7 +222,6 @@ function PageContent() {
       ctaLabel: 'E poi una scelta..\n Ma perchè?',
       ctaAria: 'E poi una scelta..\n Ma perchè?',
       ctaTitle: 'E poi una scelta..\n Ma perchè?',
-      sectionClassName: 'min-h-[100svh] pt-[20px] sm:pt-[20px] pb-32 sm:pb-24',
     },
     {
       id: 'pinguini',
@@ -374,12 +375,19 @@ function PageContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (!pendingScrollIdRef.current) return
+    const id = pendingScrollIdRef.current
+    pendingScrollIdRef.current = null
+    scrollToElement(id)
+  }, [visibleStepCount])
+
   const showStep = (targetIndex: number) => {
     if (targetIndex < 0 || targetIndex >= steps.length) return
     const sectionId = steps[targetIndex].sectionId
     if (visibleStepCount <= targetIndex) {
       setVisibleStepCount(targetIndex + 1)
-      setTimeout(() => scrollToElement(sectionId), 0)
+      pendingScrollIdRef.current = sectionId
     } else {
       scrollToElement(sectionId)
     }
@@ -450,30 +458,34 @@ function PageContent() {
       {/* Sezioni in sequenza, guidate dall'array steps */}
       {steps.map((step, index) => {
         if (index >= visibleStepCount) return null
+        const isBottomFixedCta = step.id === 'agenda' || step.id === 'tiriamo-le-somme' || step.id === 'pinguini'
         return (
-      <section
-        key={step.id}
-        id={step.sectionId}
-        className={
-          step.id === 'agenda'
-            ? 'relative bg-transparent min-h-[100svh] pt-[20px] sm:pt-[20px] pb-[80px] sm:pb-[80px]'
-            : `relative py-8 sm:py-16 bg-transparent ${step.sectionClassName ?? ''}`
-        }
-      >
-        <div className="max-w-5xl mx-auto px-4">
-          {step.wrapCard === false ? (
-            step.card
-          ) : (
-            <div className="mt-0 max-w-xl mx-auto rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
-              {step.card}
-            </div>
-          )}
+          <section
+            key={step.id}
+            id={step.sectionId}
+            className={
+              step.id === 'agenda'
+                ? 'relative bg-transparent min-h-[100svh] pt-[20px] sm:pt-[20px] pb-[80px] sm:pb-[80px]'
+                : step.id === 'tiriamo-le-somme'
+                ? 'relative bg-transparent min-h-[100svh] pt-[20px] sm:pt-[20px] pb-[80px] sm:pb-[80px]'
+                : `relative py-8 sm:py-16 bg-transparent ${step.sectionClassName ?? ''}`
+            }
+          >
+            <div className="max-w-5xl mx-auto px-4">
+              {step.wrapCard === false ? (
+                step.card
+              ) : (
+                <div className="mt-0 max-w-xl mx-auto rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
+                  {step.card}
+                </div>
+              )}
               {step.ctaLabel && index < steps.length - 1 && (
                 <div
-                  className={
-                    step.id === 'agenda' || step.id === 'tiriamo-le-somme' || step.id === 'pinguini'
-                      ? 'absolute inset-x-0 bottom-[20px] flex justify-center'
-                      : 'mt-8 flex justify-center'
+                  className={isBottomFixedCta ? 'absolute inset-x-0 flex justify-center' : 'mt-8 flex justify-center'}
+                  style={
+                    isBottomFixedCta
+                      ? { bottom: 'calc(env(safe-area-inset-bottom, 0px) + 20px)' }
+                      : undefined
                   }
                 >
                   <button
