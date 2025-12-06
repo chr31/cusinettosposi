@@ -18,7 +18,7 @@ const IBAN = process.env.NEXT_PUBLIC_IBAN || 'IT00 X000 0000 0000 0000 0000 000'
 const COUPLE = process.env.NEXT_PUBLIC_COUPLE_NAMES || 'Sara & Christian'
 const MAIN_STORY_VIDEO_SRC = 'photos/main4.mp4'
 
-// Slide di default (hero)
+// Slide di default (hero) - desktop
 const HERO_SLIDES: Slide[] = [
   { type: 'image', src: 'photos/main1.png' },
   { type: 'video', src: 'photos/ballo.mp4', poster: 'photos/main1.png', start: 0, end: 7, muted: true },
@@ -26,7 +26,7 @@ const HERO_SLIDES: Slide[] = [
   { type: 'video', src: "photos/canto.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
 ]
 
-// Esempio: slide specifiche per alcune sezioni
+// Esempio: slide specifiche per alcune sezioni - desktop
 const AGENDA_SLIDES: Slide[] = HERO_SLIDES
 
 const STORIA_SLIDES: Slide[] = [
@@ -47,9 +47,27 @@ const TIRIAMO_LE_SOMME_SLIDES: Slide[] = [
   { type: 'image', src: 'photos/amici2.jpeg' },
   { type: 'image', src: 'photos/amici3.jpeg' },
   { type: 'image', src: 'photos/amici4.jpeg' },
+  { type: 'image', src: 'photos/amici5.jpeg' },
+  { type: 'image', src: 'photos/amici6.jpeg' },
 ]
 const RSVP_SLIDES: Slide[] = HERO_SLIDES
 const LISTA_SLIDES: Slide[] = HERO_SLIDES
+const TITOLI_DI_CODA_SLIDES: Slide[] = [
+  ...HERO_SLIDES,
+  ...TIRIAMO_LE_SOMME_SLIDES,
+  ...STORIA_SLIDES,
+  ...PINGUINI_SLIDES,
+]
+
+// Slide per la modalità mobile (inizialmente uguali alle desktop, da personalizzare)
+const HERO_SLIDES_MOBILE: Slide[] = HERO_SLIDES
+const AGENDA_SLIDES_MOBILE: Slide[] = AGENDA_SLIDES
+const STORIA_SLIDES_MOBILE: Slide[] = STORIA_SLIDES
+const PINGUINI_SLIDES_MOBILE: Slide[] = PINGUINI_SLIDES
+const TIRIAMO_LE_SOMME_SLIDES_MOBILE: Slide[] = TIRIAMO_LE_SOMME_SLIDES
+const RSVP_SLIDES_MOBILE: Slide[] = RSVP_SLIDES
+const LISTA_SLIDES_MOBILE: Slide[] = LISTA_SLIDES
+const TITOLI_DI_CODA_SLIDES_MOBILE: Slide[] = TITOLI_DI_CODA_SLIDES
 
 const AGENDA = [
   {
@@ -58,30 +76,32 @@ const AGENDA = [
     location: 'Parrocchia di Santa Margherita',
     mapsUrl: 'https://maps.app.goo.gl/M2ndycwgFXTkKhXNA',
     description: 'Qui avviene la magia!',
+    iconSrc: '/icons/anelli.PNG',
+    iconAlt: 'Fedi nuziali',
   },
   {
-    time: '13:00',
+    time: '13:30',
     title: 'Aperitivo e Buffet',
     location: 'Villa Revedin, Gorgo al Monticano',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Villa+Revedin%2C+Gorgo+al+Monticano',
     description: 'Iniziano i festeggiamenti!',
   },
   {
-    time: '14:00',
+    time: '14:30',
     title: 'Pranzo',
     location: 'Villa Revedin – Sala principale',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Villa+Revedin%2C+Gorgo+al+Monticano',
     description: 'Se magna!',
   },
   {
-    time: '17:00',
+    time: '19:00',
     title: 'Taglio torta',
     location: 'Villa Revedin – Giardino',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Villa+Revedin%2C+Gorgo+al+Monticano',
     description: 'Torta, foto e brindisi con gli sposi(noi).',
   },
   {
-    time: '18:00',
+    time: '21:00',
     title: 'Festa',
     location: 'Villa Revedin – Area party',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Villa+Revedin%2C+Gorgo+al+Monticano',
@@ -91,15 +111,26 @@ const AGENDA = [
 
 function PageContent() {
   const searchParams = useSearchParams()
-  const isInviteView = searchParams.get('femoFesta') === '06-05-2018'
+  const femoFestaParam = searchParams.get('femoFesta')
+  const isFullInviteView = femoFestaParam === '06-05-2018'
+  const isPartyOnlyInviteView = femoFestaParam === '30-05-2026'
+  const isInviteView = isFullInviteView || isPartyOnlyInviteView
+  const tipoInvito = isFullInviteView ? 'pranzo' : isPartyOnlyInviteView ? 'torta' : undefined
 
   const [visibleStepCount, setVisibleStepCount] = useState(0)
   const [slideshowIndex, setSlideshowIndex] = useState<number | undefined>(undefined)
   const [welcomeHidden, setWelcomeHidden] = useState(false)
   const [activeStepIndex, setActiveStepIndex] = useState<number | null>(null)
+  const [thanksOverlayVisible, setThanksOverlayVisible] = useState(false)
+  const [showFinalThanksText, setShowFinalThanksText] = useState(false)
   const pendingScrollIdRef = useRef<string | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
-  const agendaItems = isInviteView ? AGENDA : [AGENDA[0]]
+  const agendaItems = !isInviteView
+    ? [AGENDA[0]]
+    : isFullInviteView
+      ? AGENDA
+      : AGENDA.filter((item) => ['Cerimonia', 'Taglio torta', 'Festa'].includes(item.title))
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -107,6 +138,30 @@ function PageContent() {
     }, 5000)
     return () => clearTimeout(timer)
   }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const updateIsMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    updateIsMobile()
+    window.addEventListener('resize', updateIsMobile)
+    return () => window.removeEventListener('resize', updateIsMobile)
+  }, [])
+
+  useEffect(() => {
+    if (!thanksOverlayVisible) return
+    const overlayTimer = window.setTimeout(() => {
+      setThanksOverlayVisible(false)
+    }, 5000)
+    const textTimer = window.setTimeout(() => {
+      setShowFinalThanksText(true)
+    }, 3000)
+    return () => {
+      window.clearTimeout(overlayTimer)
+      window.clearTimeout(textTimer)
+    }
+  }, [thanksOverlayVisible])
 
   const scrollToElement = (id: string) => {
     const el = document.getElementById(id)
@@ -117,11 +172,13 @@ function PageContent() {
     window.scrollTo({ top: y, behavior: 'smooth' })
   }
 
+  const heroSlides = isMobile ? HERO_SLIDES_MOBILE : HERO_SLIDES
+
   const allSteps = [
     {
       id: 'agenda',
       sectionId: 'agenda-end',
-      slides: AGENDA_SLIDES,
+      slides: isMobile ? AGENDA_SLIDES_MOBILE : AGENDA_SLIDES,
       card: (
         <>
           <h2 className="text-2xl sm:text-5xl font-semibold text-gray-900 text-center">Ci sposiamo!</h2>
@@ -138,7 +195,7 @@ function PageContent() {
     {
       id: 'storia',
       sectionId: 'storia-end',
-      slides: STORIA_SLIDES,
+      slides: isMobile ? STORIA_SLIDES_MOBILE : STORIA_SLIDES,
       wrapCard: false,
       sectionClassName: 'min-h-[100svh] py-0 sm:py-0',
       card: (
@@ -195,17 +252,17 @@ function PageContent() {
     {
       id: 'tiriamo-le-somme',
       sectionId: 'tiriamo-le-somme-end',
-      slides: TIRIAMO_LE_SOMME_SLIDES,
+      slides: isMobile ? TIRIAMO_LE_SOMME_SLIDES_MOBILE : TIRIAMO_LE_SOMME_SLIDES,
       card: (
         <>
           <h2 className="text-2xl sm:text-5xl font-semibold text-gray-900 text-center">Tiriamo le somme</h2>
           <div className="mt-3 grid max-w-2xl mx-auto grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-3 sm:p-4 text-center shadow-sm">
-              <div className="text-xl sm:text-2xl font-semibold text-sky-400">280.000 KM</div>
+              <div className="text-xl sm:text-2xl font-semibold text-sky-400">280.137 KM</div>
               <div className="text-xs sm:text-sm text-gray-700 mt-1 uppercase tracking-wide">in auto</div>
             </div>
             <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-3 sm:p-4 text-center shadow-sm">
-              <div className="text-xl sm:text-2xl font-semibold text-sky-400">13.000 KM</div>
+              <div className="text-xl sm:text-2xl font-semibold text-sky-400">13.221 KM</div>
               <div className="text-xs sm:text-sm text-gray-700 mt-1 uppercase tracking-wide">di passeggiate</div>
             </div>
             <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-3 sm:p-4 text-center shadow-sm">
@@ -226,12 +283,13 @@ function PageContent() {
     {
       id: 'pinguini',
       sectionId: 'pinguini-end',
-      slides: PINGUINI_SLIDES,
+      slides: isMobile ? PINGUINI_SLIDES_MOBILE : PINGUINI_SLIDES,
       card: (
         <>
           <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Pinguini</h2>
           <p className="text-gray-700 mt-3 text-center">
-            Si dice che i pinguini quando incontrano la compagna della vita le regalino dei sassolini.
+            {/* Si dice che i pinguini quando incontrano la compagna della vita le regalino un sassolino. */}
+            Si dice che i pinguini trascorrano la vita con una sola compagna e che, quando la incontrano, le regalino un sassolino.
           </p>
         </>
       ),
@@ -243,7 +301,7 @@ function PageContent() {
     {
       id: 'rsvp',
       sectionId: 'rsvp-end',
-      slides: RSVP_SLIDES,
+      slides: isMobile ? RSVP_SLIDES_MOBILE : RSVP_SLIDES,
       card: (
         <>
           <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Partecipazioni</h2>
@@ -252,19 +310,19 @@ function PageContent() {
             Ricorda che sappiamo dove abiti 😎
           </p>
           <div className="mt-6">
-            <RSVPForm />
+            <RSVPForm tipoInvito={tipoInvito} />
           </div>
         </>
       ),
-      ctaLabel: 'Titoli di coda',
-      ctaAria: 'Titoli di coda',
-      ctaTitle: 'Titoli di coda',
+      ctaLabel: 'Il saggio dice',
+      ctaAria: 'Il saggio dice',
+      ctaTitle: 'Il saggio dice',
       sectionClassName: 'min-h-[100svh] flex items-center py-0 sm:py-0',
     },
     {
       id: 'lista',
       sectionId: 'lista-end',
-      slides: LISTA_SLIDES,
+      slides: isMobile ? LISTA_SLIDES_MOBILE : LISTA_SLIDES,
       card: (
         <>
           <div className="mt-0 max-w-xl mx-auto rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
@@ -284,6 +342,25 @@ function PageContent() {
       ),
       wrapCard: false,
       sectionClassName: 'min-h-[100svh] flex items-center py-0 sm:py-0',
+      ctaLabel: 'Per chi resta fino ai titoli di coda',
+      ctaAria: 'Per chi resta fino ai titoli di coda',
+      ctaTitle: 'Per chi resta fino ai titoli di coda',
+    },
+    {
+      id: 'titoli-di-coda',
+      sectionId: 'titoli-di-coda-end',
+      slides: isMobile ? TITOLI_DI_CODA_SLIDES_MOBILE : TITOLI_DI_CODA_SLIDES,
+      card: (
+        <>
+          {showFinalThanksText && (
+            <h2 className={`${dancingScript.className} welcome-title font-semibold text-white text-center px-6`}>
+              Grazie!!
+            </h2>
+          )}
+        </>
+      ),
+      wrapCard: false,
+      sectionClassName: 'min-h-[100svh] flex items-center justify-center py-0 sm:py-0',
     },
   ]
 
@@ -298,7 +375,7 @@ function PageContent() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const slideGroups: Slide[][] = [HERO_SLIDES, ...steps.map((s) => s.slides ?? [])]
+    const slideGroups: Slide[][] = [heroSlides, ...steps.map((s) => s.slides ?? [])]
 
     const preloadImage = (src: string) =>
       new Promise<void>((resolve) => {
@@ -392,13 +469,17 @@ function PageContent() {
       scrollToElement(sectionId)
     }
     setActiveStepIndex(targetIndex)
+    if (targetIndex === steps.length - 1) {
+      setShowFinalThanksText(false)
+      setThanksOverlayVisible(true)
+    }
   }
 
   const scrollToContent = () => {
     showStep(0)
   }
 
-  const currentSlides = activeStepIndex == null ? HERO_SLIDES : steps[activeStepIndex]?.slides ?? HERO_SLIDES
+  const currentSlides = activeStepIndex == null ? heroSlides : steps[activeStepIndex]?.slides ?? heroSlides
 
   return (
     <main className="relative min-h-screen">
@@ -412,6 +493,15 @@ function PageContent() {
           Benvenuti!!
         </h2>
       </div>
+
+      {/* Schermata di ringraziamento alla fine */}
+      {thanksOverlayVisible && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center welcome-overlay-bg transition-opacity duration-700">
+          <h2 className={`${dancingScript.className} welcome-fade welcome-title font-semibold text-blue-500 text-center px-6`}>
+            Grazie!!
+          </h2>
+        </div>
+      )}
 
       {/* Slideshow fisso come sottofondo; il timer parte dopo la schermata di benvenuto */}
       <BackgroundSlideshow

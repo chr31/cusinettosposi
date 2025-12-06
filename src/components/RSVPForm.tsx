@@ -6,7 +6,11 @@ type FormState = {
   messaggio?: string
 }
 
-export default function RSVPForm() {
+type RSVPFormProps = {
+  tipoInvito?: string
+}
+
+export default function RSVPForm({ tipoInvito }: RSVPFormProps) {
   const [state, setState] = useState<FormState>({ nome: '', messaggio: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle')
   const [error, setError] = useState<string>('')
@@ -54,6 +58,9 @@ export default function RSVPForm() {
       formData.append('nome', state.nome)
       // campi email e presenze rimossi su richiesta
       formData.append('messaggio', state.messaggio || '')
+      if (tipoInvito) {
+        formData.append('tipoInvito', tipoInvito)
+      }
       formData.append('userAgent', typeof navigator !== 'undefined' ? navigator.userAgent : '')
       formData.append('timestamp', new Date().toISOString())
 
@@ -102,8 +109,8 @@ export default function RSVPForm() {
           value={state.nome}
           onChange={(e) => setState((s) => ({ ...s, nome: e.target.value }))}
           className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-700"
-          placeholder={"👍🏻Sergio Mattarella \n👍🏻Naruto Uzumaki \n👎🏻Le winx"}
-          rows={3}
+          placeholder={"Esempio:\n👍🏻Sergio Mattarella \n👍🏻Naruto Uzumaki \n👎🏻Le winx"}
+          rows={4}
         />
       </div>
       <div>

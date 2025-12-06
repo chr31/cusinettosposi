@@ -4,6 +4,8 @@ export type AgendaItem = {
   location: string
   mapsUrl: string
   description?: string
+  iconSrc?: string
+  iconAlt?: string
 }
 
 import { Dancing_Script } from 'next/font/google'
@@ -26,7 +28,18 @@ export default function Agenda({ items }: { items: AgendaItem[] }) {
               {it.time}
             </div>
             <div>
-              <div className="font-serif text-2xl font-bold text-gray-900 leading-tight"><i>{it.title}</i></div>
+              <div className="flex items-center gap-3">
+                <div className="font-serif text-2xl font-bold text-gray-900 leading-tight">
+                  <i>{it.title}</i>
+                </div>
+                {it.iconSrc ? (
+                  <img
+                    src={it.iconSrc}
+                    alt={it.iconAlt || it.title}
+                    className="h-10 w-10 md:h-12 md:w-12 object-contain"
+                  />
+                ) : null}
+              </div>
               <div className="mt-1 text-emerald-800 text-base flex items-center gap-3 flex-wrap">
                 <a
                   href={it.mapsUrl}
