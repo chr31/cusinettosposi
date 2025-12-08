@@ -53,21 +53,46 @@ const TIRIAMO_LE_SOMME_SLIDES: Slide[] = [
 const RSVP_SLIDES: Slide[] = HERO_SLIDES
 const LISTA_SLIDES: Slide[] = HERO_SLIDES
 const TITOLI_DI_CODA_SLIDES: Slide[] = [
-  ...HERO_SLIDES,
+  { type: 'image', src: 'photos/main1.png' },
+  { type: 'video', src: "photos/sasso.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
   ...TIRIAMO_LE_SOMME_SLIDES,
   ...STORIA_SLIDES,
-  ...PINGUINI_SLIDES,
+  { type: 'video', src: 'photos/ballo.mp4', poster: 'photos/main1.png', start: 0, end: 7, muted: true },
+  { type: 'image', src: 'photos/main2.png' },
+  { type: 'video', src: "photos/canto.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
 ]
 
 // Slide per la modalità mobile (inizialmente uguali alle desktop, da personalizzare)
-const HERO_SLIDES_MOBILE: Slide[] = HERO_SLIDES
-const AGENDA_SLIDES_MOBILE: Slide[] = AGENDA_SLIDES
-const STORIA_SLIDES_MOBILE: Slide[] = STORIA_SLIDES
-const PINGUINI_SLIDES_MOBILE: Slide[] = PINGUINI_SLIDES
-const TIRIAMO_LE_SOMME_SLIDES_MOBILE: Slide[] = TIRIAMO_LE_SOMME_SLIDES
-const RSVP_SLIDES_MOBILE: Slide[] = RSVP_SLIDES
-const LISTA_SLIDES_MOBILE: Slide[] = LISTA_SLIDES
-const TITOLI_DI_CODA_SLIDES_MOBILE: Slide[] = TITOLI_DI_CODA_SLIDES
+const HERO_SLIDES_MOBILE: Slide[] = [
+  { type: 'image', src: 'photos/mobile/main1.jpeg' },
+  { type: 'video', src: 'photos/ballo.mp4', poster: 'photos/main1.png', start: 0, end: 7, muted: true },
+  { type: 'image', src: 'photos/mobile/main2.jpeg' },
+  { type: 'video', src: "photos/canto.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
+]
+const AGENDA_SLIDES_MOBILE: Slide[] = HERO_SLIDES_MOBILE
+const STORIA_SLIDES_MOBILE: Slide[] = HERO_SLIDES_MOBILE
+const PINGUINI_SLIDES_MOBILE: Slide[] = [
+  { type: 'image', src: 'photos/mobile/main2.jpeg' },
+  { type: 'video', src: "photos/sasso.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
+]
+const TIRIAMO_LE_SOMME_SLIDES_MOBILE: Slide[] = [
+  { type: 'image', src: 'photos/mobile/amici1.jpeg' },
+  { type: 'image', src: 'photos/mobile/amici2.jpeg' },
+  { type: 'image', src: 'photos/mobile/amici3.jpeg' },
+  { type: 'image', src: 'photos/mobile/amici4.jpeg' },
+  { type: 'image', src: 'photos/mobile/amici5.jpeg' },
+]
+const RSVP_SLIDES_MOBILE: Slide[] = HERO_SLIDES_MOBILE
+const LISTA_SLIDES_MOBILE: Slide[] = HERO_SLIDES_MOBILE
+const TITOLI_DI_CODA_SLIDES_MOBILE: Slide[] = [
+  { type: 'image', src: 'photos/mobile/main1.jpeg' },
+  { type: 'video', src: "photos/sasso.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
+  ...TIRIAMO_LE_SOMME_SLIDES_MOBILE,
+  ...STORIA_SLIDES_MOBILE,
+  { type: 'video', src: 'photos/ballo.mp4', poster: 'photos/main1.png', start: 0, end: 7, muted: true },
+  { type: 'image', src: 'photos/mobile/main2.jpeg' },
+  { type: 'video', src: "photos/canto.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
+]
 
 const AGENDA = [
   {
@@ -85,6 +110,8 @@ const AGENDA = [
     location: 'Villa Revedin, Gorgo al Monticano',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Villa+Revedin%2C+Gorgo+al+Monticano',
     description: 'Iniziano i festeggiamenti!',
+    iconSrc: '/icons/aperitivo.png',
+    iconAlt: 'Aperitivo e buffet',
   },
   {
     time: '14:30',
@@ -92,6 +119,8 @@ const AGENDA = [
     location: 'Villa Revedin – Sala principale',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Villa+Revedin%2C+Gorgo+al+Monticano',
     description: 'Se magna!',
+    iconSrc: '/icons/pranzo.png',
+    iconAlt: 'Pranzo',
   },
   {
     time: '19:00',
@@ -99,6 +128,8 @@ const AGENDA = [
     location: 'Villa Revedin – Giardino',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Villa+Revedin%2C+Gorgo+al+Monticano',
     description: 'Torta, foto e brindisi con gli sposi(noi).',
+    iconSrc: '/icons/torta.png',
+    iconAlt: 'Torta',
   },
   {
     time: '21:00',
@@ -106,6 +137,8 @@ const AGENDA = [
     location: 'Villa Revedin – Area party',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Villa+Revedin%2C+Gorgo+al+Monticano',
     description: 'Se beve, se canta, se baea!!',
+    iconSrc: '/icons/festa.png',
+    iconAlt: 'Festa',
   },
 ]
 
@@ -286,7 +319,19 @@ function PageContent() {
       slides: isMobile ? PINGUINI_SLIDES_MOBILE : PINGUINI_SLIDES,
       card: (
         <>
-          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Pinguini</h2>
+          <div className="flex items-center justify-center gap-3">
+            <img
+              src="/icons/pinguini.png"
+              alt="Pinguini innamorati"
+              className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+            />
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Pinguini</h2>
+            <img
+              src="/icons/sassolini.png"
+              alt="Sassolini"
+              className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+            />
+          </div>
           <p className="text-gray-700 mt-3 text-center">
             {/* Si dice che i pinguini quando incontrano la compagna della vita le regalino un sassolino. */}
             Si dice che i pinguini trascorrano la vita con una sola compagna e che, quando la incontrano, le regalino un sassolino.
@@ -333,7 +378,14 @@ function PageContent() {
             </p>
           </div>
           <div className="mt-8 max-w-xl mx-auto rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Lista nozze</h2>
+            <div className="flex items-center justify-center gap-3">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Lista nozze</h2>
+              <img
+                src="/icons/viaggio.png"
+                alt="Viaggio di nozze"
+                className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+              />
+            </div>
             <div className="mt-6">
               <GiftSection iban={IBAN} note="" />
             </div>
