@@ -36,7 +36,7 @@ export default function Agenda({ items }: { items: AgendaItem[] }) {
                   <img
                     src={it.iconSrc}
                     alt={it.iconAlt || it.title}
-                    className="h-8 w-8 md:h-10 md:w-10 object-contain"
+                    className="h-10 w-10 md:h-12 md:w-12 object-contain"
                   />
                 ) : null}
               </div>

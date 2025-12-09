@@ -323,13 +323,13 @@ function PageContent() {
             <img
               src="/icons/pinguini.png"
               alt="Pinguini innamorati"
-              className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+              className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
             />
             <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Pinguini</h2>
             <img
               src="/icons/sassolini.png"
               alt="Sassolini"
-              className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+              className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
             />
           </div>
           <p className="text-gray-700 mt-3 text-center">
@@ -383,7 +383,7 @@ function PageContent() {
               <img
                 src="/icons/viaggio.png"
                 alt="Viaggio di nozze"
-                className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+                className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
               />
             </div>
             <div className="mt-6">
