@@ -14,9 +14,9 @@ export default function RSVPForm({ tipoInvito }: RSVPFormProps) {
   const [state, setState] = useState<FormState>({ nome: '', messaggio: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle')
   const [error, setError] = useState<string>('')
-  const endpoint = process.env.NEXT_PUBLIC_RSVP_ENDPOINT as string | undefined
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string | undefined
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER as string | undefined
+  const endpoint = "https://script.google.com/macros/s/AKfycbygRB8ihFLMH-cA2SdiDLYeX37N9ldi1d7J6wNso4nNT8QqdLn5PlDxjZ66aRyAJQj0-g/exec"
+  const recaptchaSiteKey = "6Lfgl_8rAAAAAMJiw1aFNTMShGrvK3QOy3ItSEOH"
+  const whatsappNumber = "3515494565"
 
   // Minimal loader for reCAPTCHA v3
   const getRecaptchaToken = async (): Promise<string | null> => {

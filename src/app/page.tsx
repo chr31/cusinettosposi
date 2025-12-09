@@ -55,8 +55,8 @@ const LISTA_SLIDES: Slide[] = HERO_SLIDES
 const TITOLI_DI_CODA_SLIDES: Slide[] = [
   { type: 'image', src: 'photos/main1.png' },
   { type: 'video', src: "photos/sasso.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
-  ...TIRIAMO_LE_SOMME_SLIDES,
   ...STORIA_SLIDES,
+  ...TIRIAMO_LE_SOMME_SLIDES,
   { type: 'video', src: 'photos/ballo.mp4', poster: 'photos/main1.png', start: 0, end: 7, muted: true },
   { type: 'image', src: 'photos/main2.png' },
   { type: 'video', src: "photos/canto.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
@@ -87,8 +87,8 @@ const LISTA_SLIDES_MOBILE: Slide[] = HERO_SLIDES_MOBILE
 const TITOLI_DI_CODA_SLIDES_MOBILE: Slide[] = [
   { type: 'image', src: 'photos/mobile/main1.jpeg' },
   { type: 'video', src: "photos/sasso.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
-  ...TIRIAMO_LE_SOMME_SLIDES_MOBILE,
   ...STORIA_SLIDES_MOBILE,
+  ...TIRIAMO_LE_SOMME_SLIDES_MOBILE,
   { type: 'video', src: 'photos/ballo.mp4', poster: 'photos/main1.png', start: 0, end: 7, muted: true },
   { type: 'image', src: 'photos/mobile/main2.jpeg' },
   { type: 'video', src: "photos/canto.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
@@ -351,7 +351,7 @@ function PageContent() {
         <>
           <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Partecipazioni</h2>
           <p className="text-gray-600 mt-1 text-center">
-            Facci sapere qui sotto se verrai, oppure scrivici su whatsapp.<br />
+            Entro il 15 aprile facci sapere qui sotto se verrai, oppure scrivici su whatsapp.<br />
             Ricorda che sappiamo dove abiti 😎
           </p>
           <div className="mt-6">

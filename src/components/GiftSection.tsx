@@ -15,7 +15,7 @@ export default function GiftSection({ iban, note }: { iban: string; note?: strin
     <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-6 shadow-sm text-center">
       <div className="text-lg font-medium text-gray-900">Viaggio alle Canarie</div>
       <p className="text-gray-700 mt-2">
-        Se desideraste farci un regalo ma non aveste idee precise, ci farebbe piacere se voleste contribuire alla nostra luna di miele alle Canarie.
+        Se desideraste farci un regalo, ci farebbe piacere un contributo per la nostra luna di miele alle isole Canarie.
       </p>
       <div className="mt-4">
         <div className="relative w-full max-w-xl rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-900/90 px-4 py-4 text-base mx-auto pr-12">
