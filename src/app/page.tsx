@@ -81,6 +81,9 @@ const TIRIAMO_LE_SOMME_SLIDES_MOBILE: Slide[] = [
   { type: 'image', src: 'photos/mobile/amici3.jpeg' },
   { type: 'image', src: 'photos/mobile/amici4.jpeg' },
   { type: 'image', src: 'photos/mobile/amici5.jpeg' },
+  { type: 'image', src: 'photos/mobile/amici6.jpeg' },
+  { type: 'image', src: 'photos/mobile/amici7.jpeg' },
+  { type: 'image', src: 'photos/mobile/amici8.jpeg' },
 ]
 const RSVP_SLIDES_MOBILE: Slide[] = HERO_SLIDES_MOBILE
 const LISTA_SLIDES_MOBILE: Slide[] = HERO_SLIDES_MOBILE
