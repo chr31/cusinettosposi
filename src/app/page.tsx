@@ -87,7 +87,6 @@ const LISTA_SLIDES_MOBILE: Slide[] = HERO_SLIDES_MOBILE
 const TITOLI_DI_CODA_SLIDES_MOBILE: Slide[] = [
   { type: 'image', src: 'photos/mobile/main1.jpeg' },
   { type: 'video', src: "photos/sasso.mp4", poster: 'photos/main1.png', start: 0, end: 7, muted: true },
-  ...STORIA_SLIDES_MOBILE,
   ...TIRIAMO_LE_SOMME_SLIDES_MOBILE,
   { type: 'video', src: 'photos/ballo.mp4', poster: 'photos/main1.png', start: 0, end: 7, muted: true },
   { type: 'image', src: 'photos/mobile/main2.jpeg' },
@@ -373,8 +372,10 @@ function PageContent() {
           <div className="mt-0 max-w-xl mx-auto rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
             <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Il saggio dice</h2>
             <p className="text-gray-700 mt-3 text-center">
-              I ricordi più belli non si comprano, si vivono. Se vorrai farne parte, ogni gesto,
-              piccolo o grande, sarà per noi un pezzo di viaggio in più da condividere.
+              Il valore di una persona si riconosce spesso da chi le cammina accanto.<br />
+Da chi incontra il suo passo e lo accompagna anche solo per un tratto, tra risate, attriti, sogni e passioni.<br />
+Eppure a volte si perdono e sembrano scomparse per sempre.<br /> 
+<b>Ma tornano.. E ritornano.</b>
             </p>
           </div>
           <div className="mt-8 max-w-xl mx-auto rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
