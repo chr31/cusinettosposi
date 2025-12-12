@@ -302,8 +302,8 @@ function PageContent() {
               <div className="text-xs sm:text-sm text-gray-700 mt-1 uppercase tracking-wide">di canzoni cantate</div>
             </div>
             <div className="rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-3 sm:p-4 text-center shadow-sm">
-              <div className="text-lg sm:text-xl font-semibold text-sky-400">QUELLI BELLI</div>
-              <div className="text-xs sm:text-sm text-gray-700 mt-1 uppercase tracking-wide">amici</div>
+              <div className="text-lg sm:text-xl font-semibold text-sky-400">Amici</div>
+              <div className="text-xs sm:text-sm text-gray-700 mt-1 uppercase tracking-wide">QUELLI BELLI</div>
             </div>
           </div>
         </>
