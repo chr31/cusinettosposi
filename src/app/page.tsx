@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ['latin'], weight: ['400', '600', '700'] })
 const dancingScript = Dancing_Script({ subsets: ['latin'], weight: '400' })
 
 const WEDDING_DATE = process.env.NEXT_PUBLIC_WEDDING_DATE || '2026-05-30T11:00:00+02:00'
-const IBAN = process.env.NEXT_PUBLIC_IBAN || 'IT00 X000 0000 0000 0000 0000 000'
+const IBAN = process.env.NEXT_PUBLIC_IBAN || 'IT43 L036 6901 6007 8009 6659 637'
 const COUPLE = process.env.NEXT_PUBLIC_COUPLE_NAMES || 'Sara & Christian'
 const MAIN_STORY_VIDEO_SRC = 'photos/main4.mp4'
 
