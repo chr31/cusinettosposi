@@ -150,6 +150,7 @@ function PageContent() {
   const isFullInviteView = femoFestaParam === '06-05-2018'
   const isPartyOnlyInviteView = femoFestaParam === '30-05-2026'
   const isInviteView = isFullInviteView || isPartyOnlyInviteView
+  const isDefaultView = femoFestaParam === null
   const tipoInvito = isFullInviteView ? 'pranzo' : isPartyOnlyInviteView ? 'torta' : undefined
 
   const [visibleStepCount, setVisibleStepCount] = useState(0)
@@ -372,32 +373,36 @@ function PageContent() {
       slides: isMobile ? LISTA_SLIDES_MOBILE : LISTA_SLIDES,
       card: (
         <>
-          <div className="mt-0 max-w-xl mx-auto rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Il saggio dice</h2>
-            <p className="text-gray-700 mt-3 text-center">
-              Il valore di una persona si riconosce spesso da chi le cammina accanto.<br />
+          <div className={isDefaultView ? 'flex w-full justify-center' : ''}>
+            <div className="mt-0 w-full max-w-xl mx-auto rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Il saggio dice</h2>
+              <p className="text-gray-700 mt-3 text-center">
+                Il valore di una persona si riconosce spesso da chi le cammina accanto.<br />
 Da chi incontra il suo passo e lo accompagna anche solo per un tratto, tra risate, attriti, sogni e passioni.<br />
 Eppure a volte si perdono e sembrano scomparse per sempre.<br /> 
 <b>Ma tornano.. E ritornano.</b>
-            </p>
-          </div>
-          <div className="mt-8 max-w-xl mx-auto rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
-            <div className="flex items-center justify-center gap-3">
-              <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Lista nozze</h2>
-              <img
-                src="/icons/viaggio.png"
-                alt="Viaggio di nozze"
-                className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
-              />
-            </div>
-            <div className="mt-6">
-              <GiftSection iban={IBAN} note="" />
+              </p>
             </div>
           </div>
+          {!isDefaultView && (
+            <div className="mt-8 w-full max-w-xl mx-auto rounded-2xl border border-gray-200 bg-white/80 backdrop-blur p-4 sm:p-6 shadow-sm">
+              <div className="flex items-center justify-center gap-3">
+                <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 text-center">Lista nozze</h2>
+                <img
+                  src="/icons/viaggio.png"
+                  alt="Viaggio di nozze"
+                  className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
+                />
+              </div>
+              <div className="mt-6">
+                <GiftSection iban={IBAN} note="" />
+              </div>
+            </div>
+          )}
         </>
       ),
       wrapCard: false,
-      sectionClassName: 'min-h-[100svh] flex items-center py-0 sm:py-0',
+      sectionClassName: 'min-h-[100svh]',
       ctaLabel: 'Per chi resta fino ai titoli di coda',
       ctaAria: 'Per chi resta fino ai titoli di coda',
       ctaTitle: 'Per chi resta fino ai titoli di coda',
@@ -604,7 +609,12 @@ Eppure a volte si perdono e sembrano scomparse per sempre.<br />
       {/* Sezioni in sequenza, guidate dall'array steps */}
       {steps.map((step, index) => {
         if (index >= visibleStepCount) return null
-        const isBottomFixedCta = step.id === 'agenda' || step.id === 'tiriamo-le-somme' || step.id === 'pinguini'
+        const isListaStep = step.id === 'lista'
+        const isBottomFixedCta =
+          step.id === 'agenda' ||
+          step.id === 'tiriamo-le-somme' ||
+          step.id === 'pinguini' ||
+          (isListaStep && !isMobile)
         return (
           <section
             key={step.id}
@@ -614,6 +624,8 @@ Eppure a volte si perdono e sembrano scomparse per sempre.<br />
                 ? 'relative bg-transparent min-h-[100svh] pt-[20px] sm:pt-[20px] pb-[80px] sm:pb-[80px]'
               : step.id === 'tiriamo-le-somme'
                 ? 'relative bg-transparent min-h-[100svh] pt-[0px] sm:pt-[0px] pb-[60px] sm:pb-[60px]'
+              : step.id === 'lista'
+                ? 'relative bg-transparent min-h-[100svh] pt-[20px] sm:pt-[20px] pb-[80px] sm:pb-[80px]'
                 : `relative py-8 sm:py-16 bg-transparent ${step.sectionClassName ?? ''}`
             }
           >
@@ -627,12 +639,18 @@ Eppure a volte si perdono e sembrano scomparse per sempre.<br />
               )}
               {step.ctaLabel && index < steps.length - 1 && (
                 <div
-                  className={isBottomFixedCta ? 'absolute inset-x-0 flex justify-center' : 'mt-8 flex justify-center'}
+                  className={
+                    isBottomFixedCta
+                      ? 'absolute inset-x-0 flex justify-center'
+                      : isListaStep
+                        ? 'mt-4 flex justify-center'
+                        : 'mt-8 flex justify-center'
+                  }
                   style={
                     isBottomFixedCta
                       ? {
                           bottom:
-                            step.id === 'tiriamo-le-somme'
+                            step.id === 'tiriamo-le-somme' || step.id === 'lista'
                               ? 'calc(env(safe-area-inset-bottom, 0px) + 80px)'
                               : 'calc(env(safe-area-inset-bottom, 0px) + 20px)',
                         }
